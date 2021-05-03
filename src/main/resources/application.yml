@@ -1,0 +1,24 @@
+micronaut:
+  application:
+    name: micronautDemo
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/test?useSSL=false&useJDBCComplaintTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: kshitij23
+    driverClassName: com.mysql.cj.jdbc.Driver
+jpa:
+  default:
+    properties:
+      hibernate:
+        bytecode:
+          provider: none
+        hbm2ddl:
+          auto: update
+        show_sql: true
+    entity-scan:
+      packages: 'com.ksh.entities'
+logger:
+  levels:
+    io.micronaut.context.condition: DEBUG
+    io.micronaut: DEBUG
