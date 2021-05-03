@@ -1,4 +1,4 @@
-package com.ksh;
+package com.ksh.repositories;
 
 import com.ksh.entities.Person;
 import io.micronaut.data.annotation.Repository;

@@ -1,7 +1,7 @@
 package com.ksh.controllers;
 
 import com.ksh.entities.Person;
-import com.ksh.PersonRepository;
+import com.ksh.repositories.PersonRepository;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Flowable;
