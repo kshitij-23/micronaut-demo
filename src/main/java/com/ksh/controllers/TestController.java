@@ -1,9 +1,12 @@
 package com.ksh.controllers;
 
+import com.ksh.Constants;
 import com.ksh.entities.Person;
 import com.ksh.repositories.PersonRepository;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.reactivex.Flowable;
 
 import javax.inject.Inject;
@@ -45,6 +48,21 @@ public class TestController {
 
     @Get("/findAll")
     public Iterable<Person> findAll() {
+        System.out.println(Constants.atomicInteger.addAndGet(1));
         return personRepository.findAll();
+    }
+
+    @Post("/save")
+    public Person save(@Body Person person) {
+        System.out.println(Constants.atomicInteger.addAndGet(1));
+        if(person.getId() == 0) {
+            person.setId(Long.valueOf(gen()));
+        }
+        return personRepository.save(person);
+    }
+
+    public int gen() {
+        Random r = new Random( System.currentTimeMillis() );
+        return 20000 + r.nextInt(30000);
     }
 }

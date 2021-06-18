@@ -21,4 +21,8 @@ jpa:
 logger:
   levels:
     io.micronaut.context.condition: DEBUG
-    io.micronaut: DEBUG
+    #io.micronaut: DEBUG
+mongodb:
+  database : test_db
+  collection : users
+  uri: mongodb://root:kshitij23@localhost:27017/
