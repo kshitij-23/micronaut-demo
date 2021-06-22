@@ -1,15 +1,20 @@
 package com.ksh.repositories;
 
 import com.ksh.entities.User;
+import com.mongodb.reactivestreams.client.FindPublisher;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
 import io.micronaut.context.annotation.Value;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import org.bson.conversions.Bson;
+import org.reactivestreams.Subscriber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -26,6 +31,11 @@ public class UserRepository {
     private MongoCollection<User> usersCollection;
 
     public User findById(int id) {
+        Bson filter = eq("id", id);
+        return Single.fromPublisher(mongoClient.getDatabase(database).getCollection(users, User.class).find(filter)).blockingGet();
+    }
+
+    public User findByString(String id) {
         Bson filter = eq("id", id);
         return Single.fromPublisher(mongoClient.getDatabase(database).getCollection(users, User.class).find(filter)).blockingGet();
     }
