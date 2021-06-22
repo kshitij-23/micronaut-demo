@@ -1,7 +1,9 @@
 package com.ksh.repositories;
 
 import com.ksh.entities.User;
+import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
+import io.micronaut.context.annotation.Value;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import org.bson.conversions.Bson;
@@ -15,11 +17,17 @@ import static com.mongodb.client.model.Filters.eq;
 public class UserRepository {
 
     @Inject
+    private MongoClient mongoClient;
+    @Value("${mongodb.database}")
+    private String database;
+    @Value("${mongodb.collection}")
+    private String users;
+    @Inject
     private MongoCollection<User> usersCollection;
 
     public User findById(int id) {
         Bson filter = eq("id", id);
-        return Single.fromPublisher(usersCollection.find(filter)).blockingGet();
+        return Single.fromPublisher(mongoClient.getDatabase(database).getCollection(users, User.class).find(filter)).blockingGet();
     }
 
     public User save(User user) {
@@ -31,7 +39,7 @@ public class UserRepository {
     }
 
     public Iterable<User> findAll() {
-        return Flowable.fromPublisher(usersCollection.find()).blockingIterable();
+        return Flowable.fromPublisher(mongoClient.getDatabase(database).getCollection(users, User.class).find()).blockingIterable();
     }
 
     public Iterable<User> findByName(String name) {
